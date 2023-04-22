@@ -1,0 +1,54 @@
+.body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+}
+
+button {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.key {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #8f43ee;
+  background: #f5ebeb;
+  border-radius: 5px;
+  transition: 0.1s ease-in-out;
+}
+
+.key:hover {
+  background: #f7c8e0;
+}
+
+.container {
+  background-color: #e5beec;
+  padding: 8px;
+  border-radius: 10px;
+  border: 3px solid #18122b;
+}
+
+.backspace,
+.shift-left {
+  width: 91px;
+}
+.enter,
+.shift {
+  width: 85px;
+}
+
+.space {
+  width: 312px;
+}
+
+.tab {
+  width: 47px;
+}
+
+.row {
+  margin-bottom: 4px;
+}
