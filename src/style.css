@@ -17,6 +17,8 @@ button {
   border-radius: 5px;
   transition: 0.1s ease-in-out;
   box-shadow: 2px 3px #999;
+  margin-bottom: 10px;
+  margin-right: 2px;
 }
 
 .key:hover {
@@ -48,19 +50,15 @@ button {
 }
 
 .space {
-  width: 312px;
+  width: 305px;
 }
 
 .tab {
   width: 47px;
 }
 
-.row {
-  margin-bottom: 10px;
-}
-
 .textarea {
-  background-color: #F3EFE0;
+  background-color: #f3efe0;
   border: 1px solid;
   margin: 14px;
   height: 180px;
@@ -71,6 +69,10 @@ button {
   margin: 20px 0 7px 0;
 }
 
-.keyboard-title{
-    margin: 0;
+.keyboard-title {
+  margin: 0;
+}
+
+.del {
+  width: 43px;
 }
