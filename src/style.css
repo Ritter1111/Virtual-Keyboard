@@ -1,9 +1,6 @@
 .body {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
 }
 
 button {
@@ -19,17 +16,26 @@ button {
   background: #f5ebeb;
   border-radius: 5px;
   transition: 0.1s ease-in-out;
+  box-shadow: 2px 3px #999;
 }
 
 .key:hover {
-  background: #f7c8e0;
+  background: #c9a7eb;
+}
+
+.key:active {
+  background-color: #c9a7eb;
+  box-shadow: 0 1px #666;
+  transform: translateY(3px);
 }
 
 .container {
+  width: 666px;
+  margin: 0 auto;
   background-color: #e5beec;
   padding: 8px;
   border-radius: 10px;
-  border: 3px solid #18122b;
+  border: 2px solid #18122b;
 }
 
 .backspace,
@@ -50,5 +56,21 @@ button {
 }
 
 .row {
-  margin-bottom: 4px;
+  margin-bottom: 10px;
+}
+
+.textarea {
+  background-color: #F3EFE0;
+  border: 1px solid;
+  margin: 14px;
+  height: 180px;
+  width: 677px;
+}
+
+.title {
+  margin: 20px 0 7px 0;
+}
+
+.keyboard-title{
+    margin: 0;
 }
