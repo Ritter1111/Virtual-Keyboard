@@ -1,5 +1,10 @@
+/* eslint-disable no-param-reassign */
 // eslint-disable-next-line import/extensions
 import keyboardEng from './keyboardEn.js';
+// eslint-disable-next-line import/extensions
+import keyboardRu from './keyboardRu.js';
+
+let currentKeyboard = 'keyboardEng';
 
 function createButton() {
   const title = document.createElement('h2');
@@ -18,7 +23,8 @@ function createButton() {
   const row = document.createElement('div');
   row.className = 'row';
   divWrapper.append(row);
-  keyboardEng.forEach((btn) => {
+  const keyboardLayout = currentKeyboard === 'keyboardEng' ? keyboardEng : keyboardRu;
+  keyboardLayout.forEach((btn) => {
     const buttonEl = document.createElement('button');
     buttonEl.innerHTML = btn.key;
     buttonEl.className = 'key';
@@ -50,12 +56,25 @@ function createButton() {
   document.body.append(title, paragraph, paragraph2, textArea, divWrapper);
 }
 
+function switchKeyboard() {
+  currentKeyboard = currentKeyboard === 'keyboardEng' ? 'keyboardRu' : 'keyboardEng';
+  const keyboard = currentKeyboard === 'keyboardEng' ? keyboardEng : keyboardRu;
+  const button = document.querySelectorAll('.key');
+  button.forEach((btn, idx) => {
+    btn.innerHTML = keyboard[idx].key;
+    btn.dataset.code = keyboard[idx].code;
+  });
+}
+
 document.addEventListener('keydown', (e) => {
   e.preventDefault();
   const button = document.querySelectorAll('.key');
   const textArea = document.querySelector('.textarea');
   const keyCode = e.code;
   const keyInput = e.key;
+  if ((e.code === 'AltLeft' && e.ctrlKey) || (e.code === 'AltRight' && e.ctrlKey)) {
+    switchKeyboard();
+  }
   if (keyCode === 'Enter') {
     textArea.value += '\n';
   } else if (keyCode === 'ArrowLeft') {
@@ -72,7 +91,15 @@ document.addEventListener('keydown', (e) => {
     textArea.value = textArea.value.substring(1);
   } else if (keyCode === 'Tab') {
     textArea.value += '    ';
-  } else if (keyCode !== 'CapsLock') {
+  } else if (keyCode !== 'CapsLock'
+  && keyCode !== 'ShiftRight'
+  && keyCode !== 'ShiftLeft'
+  && keyCode !== 'ControlLeft'
+  && keyCode !== 'ControlLeft'
+  && keyCode !== 'ControlRight'
+  && keyCode !== 'AltRight'
+  && keyCode !== 'AltLeft'
+  && keyCode !== 'MetaLeft') {
     textArea.value += keyInput;
   }
   button.forEach((btn) => {
@@ -81,7 +108,13 @@ document.addEventListener('keydown', (e) => {
       btn.classList.add('active');
     }
     if (keyCode === 'CapsLock') {
-      btn.classList.toggle('caps');
+      if (!btn.classList.contains('del')
+      && !btn.classList.contains('backspace')
+      && !btn.classList.contains('shift')
+      && !btn.classList.contains('btn-colored')
+      && !btn.classList.contains('tab')) {
+        btn.classList.toggle('caps');
+      }
     }
   });
 });
@@ -115,13 +148,26 @@ document.addEventListener('mousedown', (e) => {
       textArea.value += keyInput;
     }
     e.target.classList.add('active');
+    const button = document.querySelectorAll('.key');
+    button.forEach((btn) => {
+      if (keyInput === 'CapsLock') {
+        if (!btn.classList.contains('del')
+        && !btn.classList.contains('backspace')
+        && !btn.classList.contains('shift')
+        && !btn.classList.contains('btn-colored')
+        && !btn.classList.contains('tab')) {
+          btn.classList.toggle('caps');
+        }
+      }
+    });
   }
 });
 
 document.addEventListener('mouseup', (e) => {
   e.preventDefault();
   if (e.target.closest('.key')) {
-    e.target.classList.remove('active');
+    e.target.classList.toggle('active');
   }
 });
+
 createButton();
