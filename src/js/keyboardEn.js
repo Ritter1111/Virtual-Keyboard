@@ -1,5 +1,5 @@
 const keyboardEng = [
-  { key: '`' },
+  { key: '`', code: 'Backquote' },
   { key: '1', code: 'Digit1' },
   { key: '2', code: 'Digit2' },
   { key: '3', code: 'Digit3' },
@@ -24,8 +24,8 @@ const keyboardEng = [
   { key: 'i', code: 'KeyI' },
   { key: 'o', code: 'KeyO' },
   { key: 'p', code: 'KeyP' },
-  { key: '[', code: 'BracjetLeft' },
-  { key: ']', code: 'BracjetRight' },
+  { key: '[', code: 'BracketLeft' },
+  { key: ']', code: 'BracketRight' },
   { key: '\\', code: 'Backslash' },
   { key: 'Del', code: 'Delete' },
   { key: 'CapsLock', code: 'CapsLock' },

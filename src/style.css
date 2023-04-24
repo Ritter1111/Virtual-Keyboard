@@ -12,13 +12,13 @@ button {
 .key {
   width: 40px;
   height: 40px;
-  border: 1px solid #8f43ee;
+  border: 1px solid #F6C6EA;
   background: #f5ebeb;
   border-radius: 5px;
   transition: 0.1s ease-in-out;
   box-shadow: 2px 3px #999;
   margin-bottom: 10px;
-  margin-right: 2px;
+  margin-right: 4px;
 }
 
 .key:hover {
@@ -31,30 +31,39 @@ button {
   transform: translateY(3px);
 }
 
+.key.active {
+  background-color: #c9a7eb;
+  box-shadow: 0 1px #666;
+  transform: translateY(3px);
+}
+
 .container {
-  width: 666px;
+  width: 680px;
   margin: 0 auto;
-  background-color: #e5beec;
+  background-color: #F6C6EA;
   padding: 8px;
   border-radius: 10px;
-  border: 2px solid #18122b;
+  border: 1px solid #18122b;
 }
 
 .backspace,
 .shift-left {
-  width: 91px;
+  width: 93px;
+  background-color: #f3efe0;
 }
 .enter,
 .shift {
   width: 85px;
+  background-color: #f3efe0;
 }
 
 .space {
-  width: 305px;
+  width: 314px;
 }
 
 .tab {
   width: 47px;
+  background-color: #f3efe0;
 }
 
 .textarea {
@@ -75,4 +84,9 @@ button {
 
 .del {
   width: 43px;
+  background-color: #f3efe0;
+}
+
+.btn-colored {
+  background-color: #f3efe0;
 }

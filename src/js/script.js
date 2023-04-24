@@ -3,13 +3,15 @@ import keyboardEng from './keyboardEn.js';
 /* global document */
 
 function createButton() {
-  console.log('dss');
   const title = document.createElement('h2');
   title.className = 'title';
   title.innerText = 'Virtual Keyboard';
   const paragraph = document.createElement('p');
   paragraph.className = 'keyboard-title';
   paragraph.innerText = 'Клавиатура создана в операционной системе Windows';
+  const paragraph2 = document.createElement('p');
+  paragraph2.className = 'keyboard-title';
+  paragraph2.innerText = 'Для переключения языка комбинация: Ctrl + Alt';
   const textArea = document.createElement('textarea');
   textArea.className = 'textarea';
   const divWrapper = document.createElement('div');
@@ -32,10 +34,41 @@ function createButton() {
       buttonEl.classList.add('tab');
     } else if (btn.code === 'Delete') {
       buttonEl.classList.add('del');
+    } else if (btn.code === 'AltRight'
+    || btn.code === 'ArrowLeft'
+    || btn.code === 'ArrowDown'
+    || btn.code === 'ArrowRight'
+    || btn.code === 'ControlRight'
+    || btn.code === 'AltLeft'
+    || btn.code === 'MetaLeft'
+    || btn.code === 'ControlLeft'
+    || btn.code === 'ShiftRight'
+    || btn.code === 'ArrowUp') {
+      buttonEl.classList.add('btn-colored');
     }
     row.appendChild(buttonEl);
   });
-  document.body.append(title, paragraph, textArea, divWrapper);
+  document.body.append(title, paragraph, paragraph2, textArea, divWrapper);
 }
+document.addEventListener('keydown', (e) => {
+  e.preventDefault();
+  const button = document.querySelectorAll('.key');
+  const keyCode = e.code;
+  button.forEach((btn) => {
+    if (btn.dataset.code === keyCode) {
+      btn.classList.add('active');
+    }
+  });
+});
 
+document.addEventListener('keyup', (e) => {
+  e.preventDefault();
+  const button = document.querySelectorAll('.key');
+  const keyCode = e.code;
+  button.forEach((btn) => {
+    if (btn.dataset.code === keyCode) {
+      btn.classList.remove('active');
+    }
+  });
+});
 createButton();
