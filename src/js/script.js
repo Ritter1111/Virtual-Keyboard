@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/extensions
 import keyboardEng from './keyboardEn.js';
-/* global document */
 
 function createButton() {
   const title = document.createElement('h2');
@@ -50,13 +49,39 @@ function createButton() {
   });
   document.body.append(title, paragraph, paragraph2, textArea, divWrapper);
 }
+
 document.addEventListener('keydown', (e) => {
   e.preventDefault();
   const button = document.querySelectorAll('.key');
+  const textArea = document.querySelector('.textarea');
   const keyCode = e.code;
+  const keyInput = e.key;
+  if (keyCode === 'Enter') {
+    textArea.value += '\n';
+  } else if (keyCode === 'ArrowLeft') {
+    textArea.value += '\u25C4';
+  } else if (keyCode === 'ArrowRight') {
+    textArea.value += '\u25BA';
+  } else if (keyCode === 'ArrowUp') {
+    textArea.value += '\u25B2';
+  } else if (keyCode === 'ArrowDown') {
+    textArea.value += '\u25BC';
+  } else if (keyCode === 'Backspace') {
+    textArea.value = textArea.value.slice(0, -1);
+  } else if (keyCode === 'Delete') {
+    textArea.value = textArea.value.substring(1);
+  } else if (keyCode === 'Tab') {
+    textArea.value += '    ';
+  } else if (keyCode !== 'CapsLock') {
+    textArea.value += keyInput;
+  }
   button.forEach((btn) => {
     if (btn.dataset.code === keyCode) {
+      textArea.focus();
       btn.classList.add('active');
+    }
+    if (keyCode === 'CapsLock') {
+      btn.classList.toggle('caps');
     }
   });
 });
@@ -70,5 +95,33 @@ document.addEventListener('keyup', (e) => {
       btn.classList.remove('active');
     }
   });
+});
+
+document.addEventListener('mousedown', (e) => {
+  e.preventDefault();
+  if (e.target.classList.contains('key')) {
+    const textArea = document.querySelector('.textarea');
+    const keyInput = e.target.innerText;
+    textArea.focus();
+    if (keyInput === 'Enter') {
+      textArea.value += '\n';
+    } else if (keyInput === 'Backspace') {
+      textArea.value = textArea.value.slice(0, -1);
+    } else if (keyInput === 'Del') {
+      textArea.value = '';
+    } else if (keyInput === 'Tab') {
+      textArea.value += '    ';
+    } else if (keyInput !== 'CapsLock') {
+      textArea.value += keyInput;
+    }
+    e.target.classList.add('active');
+  }
+});
+
+document.addEventListener('mouseup', (e) => {
+  e.preventDefault();
+  if (e.target.closest('.key')) {
+    e.target.classList.remove('active');
+  }
 });
 createButton();

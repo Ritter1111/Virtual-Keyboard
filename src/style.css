@@ -21,18 +21,22 @@ button {
   margin-right: 4px;
 }
 
+.key.caps{
+  text-transform: uppercase;
+}
+
 .key:hover {
-  background: #c9a7eb;
+  /* background: #c9a7eb; */
 }
 
 .key:active {
-  background-color: #c9a7eb;
+  /* background-color: #c9a7eb; */
   box-shadow: 0 1px #666;
   transform: translateY(3px);
 }
 
 .key.active {
-  background-color: #c9a7eb;
+  /* background-color: #c9a7eb; */
   box-shadow: 0 1px #666;
   transform: translateY(3px);
 }
@@ -67,11 +71,14 @@ button {
 }
 
 .textarea {
+  padding: 5px;
   background-color: #f3efe0;
-  border: 1px solid;
+  border: 1px solid #F6C6EA;
   margin: 14px;
   height: 180px;
   width: 677px;
+  font-size: 15px;
+  outline: none;
 }
 
 .title {
