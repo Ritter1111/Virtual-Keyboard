@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line import/extensions
 import keyboardEng from './keyboardEn.js';
@@ -5,8 +6,10 @@ import keyboardEng from './keyboardEn.js';
 import keyboardRu from './keyboardRu.js';
 
 let currentLanguage = localStorage.getItem('keyboardLanguage') || 'keyboardEng';
+let isCaps = false;
+let isShiftPressed = false;
 
-const createButton = () => {
+(function createPage() {
   const title = document.createElement('h2');
   title.className = 'title';
   title.innerText = 'Virtual Keyboard';
@@ -18,6 +21,10 @@ const createButton = () => {
   paragraph2.innerText = 'Для переключения языка комбинация: Ctrl + Alt';
   const textArea = document.createElement('textarea');
   textArea.className = 'textarea';
+  document.body.append(title, paragraph, paragraph2, textArea);
+}());
+
+const createButton = () => {
   const divWrapper = document.createElement('div');
   divWrapper.className = 'container';
   const row = document.createElement('div');
@@ -26,7 +33,11 @@ const createButton = () => {
   const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
   keyboard.forEach((btn) => {
     const buttonEl = document.createElement('button');
-    buttonEl.innerHTML = btn.key;
+    if (isCaps || isShiftPressed) {
+      buttonEl.innerHTML = btn.key.toUpperCase();
+    } else {
+      buttonEl.innerHTML = btn.key;
+    }
     buttonEl.className = 'key';
     buttonEl.dataset.code = btn.code;
     if (btn.code === 'Backspace' || btn.code === 'CapsLock' || btn.code === 'ShiftLeft') {
@@ -53,7 +64,7 @@ const createButton = () => {
     }
     row.appendChild(buttonEl);
   });
-  document.body.append(title, paragraph, paragraph2, textArea, divWrapper);
+  document.body.append(divWrapper);
 };
 
 const switchKeyboard = () => {
@@ -67,13 +78,29 @@ const switchKeyboard = () => {
   });
 };
 
+function renderNewKeyboard() {
+  const buttons = document.querySelectorAll('.key');
+  const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
+  buttons.forEach((btn, idx) => {
+    if (isShiftPressed) {
+      btn.innerHTML = keyboard[idx].key2;
+      btn.dataset.code = keyboard[idx].code;
+    } else {
+      btn.innerHTML = keyboard[idx].key;
+      btn.dataset.code = keyboard[idx].code;
+    }
+  });
+}
+
 document.addEventListener('keydown', (e) => {
   e.preventDefault();
   const button = document.querySelectorAll('.key');
   const textArea = document.querySelector('.textarea');
   const keyCode = e.code;
   const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
-  const keyInput = keyboard.find((key) => key.code === e.code).key;
+  const keyInput = isShiftPressed || isCaps
+    ? keyboard.find((key) => key.code === e.code).key2
+    : keyboard.find((key) => key.code === e.code).key;
   if ((keyCode === 'AltLeft' && e.ctrlKey)
   || (keyCode === 'AltRight' && e.ctrlKey)
   || (keyCode === 'ControlLeft' && e.altKey)
@@ -100,6 +127,12 @@ document.addEventListener('keydown', (e) => {
     textArea.value += '    ';
   } else if (keyCode === 'Space') {
     textArea.value += ' ';
+  } else if (keyCode === 'ShiftRight' || keyCode === 'ShiftLeft') {
+    isShiftPressed = true;
+    renderNewKeyboard();
+  } else if (keyCode === 'CapsLock') {
+    isCaps = !isCaps;
+    renderNewKeyboard();
   } else if (keyCode !== 'CapsLock'
   && keyCode !== 'ShiftRight'
   && keyCode !== 'ShiftLeft'
@@ -109,7 +142,11 @@ document.addEventListener('keydown', (e) => {
   && keyCode !== 'AltRight'
   && keyCode !== 'AltLeft'
   && keyCode !== 'MetaLeft') {
-    textArea.value += keyInput;
+    if (isCaps) {
+      textArea.value += keyInput.toUpperCase();
+    } else {
+      textArea.value += keyInput;
+    }
   }
   button.forEach((btn) => {
     if (btn.dataset.code === keyCode) {
@@ -132,6 +169,10 @@ document.addEventListener('keyup', (e) => {
   e.preventDefault();
   const button = document.querySelectorAll('.key');
   const keyCode = e.code;
+  if (keyCode === 'ShiftRight' || keyCode === 'ShiftLeft') {
+    isShiftPressed = false;
+    renderNewKeyboard();
+  }
   button.forEach((btn) => {
     if (btn.dataset.code === keyCode) {
       btn.classList.remove('active');
@@ -186,5 +227,4 @@ document.addEventListener('mouseup', (e) => {
     e.target.classList.remove('active');
   }
 });
-
 createButton();
