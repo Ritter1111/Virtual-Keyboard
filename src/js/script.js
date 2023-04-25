@@ -72,11 +72,12 @@ document.addEventListener('keydown', (e) => {
   const button = document.querySelectorAll('.key');
   const textArea = document.querySelector('.textarea');
   const keyCode = e.code;
-  const keyInput = keyboardEng.find((key) => key.code === e.code).key;
-  if ((e.code === 'AltLeft' && e.ctrlKey)
-  || (e.code === 'AltRight' && e.ctrlKey)
-  || (e.code === 'ControlLeft' && e.altKey)
-  || (e.code === 'ControlRight' && e.altKey)) {
+  const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
+  const keyInput = keyboard.find((key) => key.code === e.code).key;
+  if ((keyCode === 'AltLeft' && e.ctrlKey)
+  || (keyCode === 'AltRight' && e.ctrlKey)
+  || (keyCode === 'ControlLeft' && e.altKey)
+  || (keyCode === 'ControlRight' && e.altKey)) {
     switchKeyboard();
   }
   if (keyCode === 'Enter') {
@@ -92,9 +93,13 @@ document.addEventListener('keydown', (e) => {
   } else if (keyCode === 'Backspace') {
     textArea.value = textArea.value.slice(0, -1);
   } else if (keyCode === 'Delete') {
-    textArea.value = textArea.value.substring(1);
+    const kursor = textArea.selectionEnd;
+    textArea.value = textArea.value.slice(0, kursor) + textArea.value.slice(kursor + 1);
+    textArea.selectionEnd = kursor;
   } else if (keyCode === 'Tab') {
     textArea.value += '    ';
+  } else if (keyCode === 'Space') {
+    textArea.value += ' ';
   } else if (keyCode !== 'CapsLock'
   && keyCode !== 'ShiftRight'
   && keyCode !== 'ShiftLeft'
@@ -144,7 +149,9 @@ document.addEventListener('mousedown', (e) => {
     } else if (keyInput === 'Backspace') {
       textArea.value = textArea.value.slice(0, -1);
     } else if (keyInput === 'Del') {
-      textArea.value = '';
+      const kursor = textArea.selectionEnd;
+      textArea.value = textArea.value.slice(0, kursor) + textArea.value.slice(kursor + 1);
+      textArea.selectionEnd = kursor;
     } else if (keyInput === 'Tab') {
       textArea.value += '    ';
     } else if (keyInput !== 'CapsLock'
