@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
-// eslint-disable-next-line import/extensions
 import keyboardEng from './keyboardEn.js';
-// eslint-disable-next-line import/extensions
 import keyboardRu from './keyboardRu.js';
 
 let currentLanguage = localStorage.getItem('keyboardLanguage') || 'keyboardEng';
@@ -193,6 +191,12 @@ document.addEventListener('mousedown', (e) => {
       const kursor = textArea.selectionEnd;
       textArea.value = textArea.value.slice(0, kursor) + textArea.value.slice(kursor + 1);
       textArea.selectionEnd = kursor;
+    } else if (keyInput === 'Shift') {
+      isShiftPressed = true;
+      renderNewKeyboard();
+    } else if (keyInput === 'CapsLock') {
+      isCaps = !isCaps;
+      renderNewKeyboard();
     } else if (keyInput === 'Tab') {
       textArea.value += '    ';
     } else if (keyInput !== 'CapsLock'
@@ -204,7 +208,11 @@ document.addEventListener('mousedown', (e) => {
     && keyInput !== 'AltRight'
     && keyInput !== 'AltLeft'
     && keyInput !== 'MetaLeft') {
-      textArea.value += keyInput;
+      if (isCaps) {
+        textArea.value += keyInput.toUpperCase();
+      } else {
+        textArea.value += keyInput;
+      }
     }
     e.target.classList.add('active');
     const button = document.querySelectorAll('.key');
@@ -223,8 +231,14 @@ document.addEventListener('mousedown', (e) => {
 });
 
 document.addEventListener('mouseup', (e) => {
+  const keyInput = e.target.innerText;
+  if (keyInput === 'Shift') {
+    isShiftPressed = false;
+    renderNewKeyboard();
+  }
   if (e.target.closest('.key')) {
     e.target.classList.remove('active');
   }
 });
+
 createButton();

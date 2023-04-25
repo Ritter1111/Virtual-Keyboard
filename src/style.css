@@ -26,17 +26,17 @@ button {
 }
 
 .key:hover {
-  /* background: #c9a7eb; */
+  background: #c9a7eb;
 }
 
 .key:active {
-  /* background-color: #c9a7eb; */
+  background-color: #c9a7eb;
   box-shadow: 0 1px #666;
   transform: translateY(3px);
 }
 
 .key.active {
-  /* background-color: #c9a7eb; */
+  background-color: #c9a7eb;
   box-shadow: 0 1px #666;
   transform: translateY(3px);
 }
@@ -53,12 +53,12 @@ button {
 .backspace,
 .shift-left {
   width: 93px;
-  background-color: #FFEBEB;
+  background-color: #E5BEEC;
 }
 .enter,
 .shift {
   width: 85px;
-  background-color: #FFEBEB;
+  background-color: #E5BEEC;
 }
 
 .space {
@@ -67,12 +67,12 @@ button {
 
 .tab {
   width: 47px;
-  background-color: #FFEBEB;
+  background-color: #E5BEEC;
 }
 
 .textarea {
   padding: 5px;
-  /* background-color: #FFEBEB; */
+  background-color: #FFEBEB;
   border: 1px solid #F6C6EA;
   margin: 14px;
   height: 180px;
@@ -83,6 +83,7 @@ button {
 
 .title {
   margin: 20px 0 7px 0;
+  
 }
 
 .keyboard-title {
@@ -91,9 +92,9 @@ button {
 
 .del {
   width: 43px;
-  background-color: #FFEBEB;
+  background-color: #E5BEEC;
 }
 
 .btn-colored {
-  background-color: #FFEBEB;
+  background-color: #E5BEEC;
 }
