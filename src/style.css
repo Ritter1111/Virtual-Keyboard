@@ -53,12 +53,12 @@ button {
 .backspace,
 .shift-left {
   width: 93px;
-  background-color: #f3efe0;
+  background-color: #FFEBEB;
 }
 .enter,
 .shift {
   width: 85px;
-  background-color: #f3efe0;
+  background-color: #FFEBEB;
 }
 
 .space {
@@ -67,12 +67,12 @@ button {
 
 .tab {
   width: 47px;
-  background-color: #f3efe0;
+  background-color: #FFEBEB;
 }
 
 .textarea {
   padding: 5px;
-  background-color: #f3efe0;
+  background-color: #FFEBEB;
   border: 1px solid #F6C6EA;
   margin: 14px;
   height: 180px;
@@ -91,9 +91,9 @@ button {
 
 .del {
   width: 43px;
-  background-color: #f3efe0;
+  background-color: #FFEBEB;
 }
 
 .btn-colored {
-  background-color: #f3efe0;
+  background-color: #FFEBEB;
 }

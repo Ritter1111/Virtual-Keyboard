@@ -4,9 +4,9 @@ import keyboardEng from './keyboardEn.js';
 // eslint-disable-next-line import/extensions
 import keyboardRu from './keyboardRu.js';
 
-let currentKeyboard = 'keyboardEng';
+let currentLanguage = localStorage.getItem('keyboardLanguage') || 'keyboardEng';
 
-function createButton() {
+const createButton = () => {
   const title = document.createElement('h2');
   title.className = 'title';
   title.innerText = 'Virtual Keyboard';
@@ -23,8 +23,8 @@ function createButton() {
   const row = document.createElement('div');
   row.className = 'row';
   divWrapper.append(row);
-  const keyboardLayout = currentKeyboard === 'keyboardEng' ? keyboardEng : keyboardRu;
-  keyboardLayout.forEach((btn) => {
+  const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
+  keyboard.forEach((btn) => {
     const buttonEl = document.createElement('button');
     buttonEl.innerHTML = btn.key;
     buttonEl.className = 'key';
@@ -54,25 +54,29 @@ function createButton() {
     row.appendChild(buttonEl);
   });
   document.body.append(title, paragraph, paragraph2, textArea, divWrapper);
-}
+};
 
-function switchKeyboard() {
-  currentKeyboard = currentKeyboard === 'keyboardEng' ? 'keyboardRu' : 'keyboardEng';
-  const keyboard = currentKeyboard === 'keyboardEng' ? keyboardEng : keyboardRu;
+const switchKeyboard = () => {
+  currentLanguage = currentLanguage === 'keyboardEng' ? 'keyboardRu' : 'keyboardEng';
+  localStorage.setItem('keyboardLanguage', currentLanguage);
+  const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
   const button = document.querySelectorAll('.key');
   button.forEach((btn, idx) => {
     btn.innerHTML = keyboard[idx].key;
     btn.dataset.code = keyboard[idx].code;
   });
-}
+};
 
 document.addEventListener('keydown', (e) => {
   e.preventDefault();
   const button = document.querySelectorAll('.key');
   const textArea = document.querySelector('.textarea');
   const keyCode = e.code;
-  const keyInput = e.key;
-  if ((e.code === 'AltLeft' && e.ctrlKey) || (e.code === 'AltRight' && e.ctrlKey)) {
+  const keyInput = keyboardEng.find((key) => key.code === e.code).key;
+  if ((e.code === 'AltLeft' && e.ctrlKey)
+  || (e.code === 'AltRight' && e.ctrlKey)
+  || (e.code === 'ControlLeft' && e.altKey)
+  || (e.code === 'ControlRight' && e.altKey)) {
     switchKeyboard();
   }
   if (keyCode === 'Enter') {
@@ -131,7 +135,6 @@ document.addEventListener('keyup', (e) => {
 });
 
 document.addEventListener('mousedown', (e) => {
-  e.preventDefault();
   if (e.target.classList.contains('key')) {
     const textArea = document.querySelector('.textarea');
     const keyInput = e.target.innerText;
@@ -144,7 +147,15 @@ document.addEventListener('mousedown', (e) => {
       textArea.value = '';
     } else if (keyInput === 'Tab') {
       textArea.value += '    ';
-    } else if (keyInput !== 'CapsLock') {
+    } else if (keyInput !== 'CapsLock'
+    && keyInput !== 'Shift'
+    && keyInput !== 'ShiftLeft'
+    && keyInput !== 'Ctrl'
+    && keyInput !== 'Alt'
+    && keyInput !== 'Win'
+    && keyInput !== 'AltRight'
+    && keyInput !== 'AltLeft'
+    && keyInput !== 'MetaLeft') {
       textArea.value += keyInput;
     }
     e.target.classList.add('active');
@@ -164,9 +175,8 @@ document.addEventListener('mousedown', (e) => {
 });
 
 document.addEventListener('mouseup', (e) => {
-  e.preventDefault();
   if (e.target.closest('.key')) {
-    e.target.classList.toggle('active');
+    e.target.classList.remove('active');
   }
 });
 
