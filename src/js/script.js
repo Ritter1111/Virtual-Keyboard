@@ -9,12 +9,15 @@ const createPage = () => {
   const title = document.createElement('h2');
   title.className = 'title';
   title.innerText = 'Virtual Keyboard';
+
   const paragraph = document.createElement('p');
   paragraph.className = 'keyboard-title';
   paragraph.innerText = 'Клавиатура создана в операционной системе Windows';
+
   const paragraph2 = document.createElement('p');
   paragraph2.className = 'keyboard-title';
   paragraph2.innerText = 'Для переключения языка комбинация: Ctrl + Alt';
+
   const textArea = document.createElement('textarea');
   textArea.className = 'textarea';
   textArea.placeholder = 'Type some text here...';
@@ -24,17 +27,15 @@ const createPage = () => {
 const createKeyboard = () => {
   const divWrapper = document.createElement('div');
   divWrapper.className = 'container';
+
   const row = document.createElement('div');
   row.className = 'row';
   divWrapper.append(row);
+
   const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
   keyboard.forEach(({ key, code }) => {
     const buttonEl = document.createElement('button');
-    if (isCaps || isShiftPressed) {
-      buttonEl.innerHTML = key.toUpperCase();
-    } else {
-      buttonEl.innerHTML = key;
-    }
+    buttonEl.innerHTML = isCaps || isShiftPressed ? key.toUpperCase() : key;
     buttonEl.className = 'key';
     buttonEl.dataset.code = code;
     if (code === 'Backspace' || code === 'CapsLock' || code === 'ShiftLeft') {
@@ -91,6 +92,16 @@ const renderNewKeyboard = () => {
   });
 };
 
+const insertCursor = (cursor) => {
+  const textArea = document.querySelector('.textarea');
+  const kursorEnd = textArea.selectionEnd;
+  const kursorStart = textArea.selectionStart;
+  const newCursorPosition = kursorStart + cursor.length;
+  textArea.value = textArea.value.substring(0, kursorStart) + cursor
+  + textArea.value.substring(kursorEnd);
+  textArea.setSelectionRange(newCursorPosition, newCursorPosition);
+};
+
 document.addEventListener('keydown', (e) => {
   e.preventDefault();
   const button = document.querySelectorAll('.key');
@@ -111,8 +122,7 @@ document.addEventListener('keydown', (e) => {
     switchKeyboard();
   }
   if (keyCode === 'Enter') {
-    textArea.value = `${textArea.value.slice(0, kursorStart)}\n${textArea.value.slice(kursorEnd)}`;
-    textArea.setSelectionRange(kursorStart + 1, kursorEnd + 1);
+    insertCursor('\n');
   } else if (keyCode === 'ArrowLeft') {
     textArea.value += '\u25C4';
   } else if (keyCode === 'ArrowRight') {
@@ -130,9 +140,9 @@ document.addEventListener('keydown', (e) => {
     textArea.value = textArea.value.slice(0, kursorEnd) + textArea.value.slice(kursorEnd + 1);
     textArea.selectionEnd = kursorEnd;
   } else if (keyCode === 'Tab') {
-    textArea.value += '    ';
+    insertCursor('    ');
   } else if (keyCode === 'Space') {
-    textArea.value += ' ';
+    insertCursor(' ');
   } else if (keyCode === 'ShiftRight' || keyCode === 'ShiftLeft') {
     isShiftPressed = true;
     renderNewKeyboard();
@@ -149,9 +159,9 @@ document.addEventListener('keydown', (e) => {
   && keyCode !== 'AltLeft'
   && keyCode !== 'MetaLeft') {
     if (isCaps) {
-      textArea.value += keyInput.toUpperCase();
+      insertCursor(keyInput.toUpperCase());
     } else {
-      textArea.value += keyInput;
+      insertCursor(keyInput);
     }
   }
   button.forEach((btn) => {
@@ -194,8 +204,7 @@ document.addEventListener('mousedown', (e) => {
     const button = document.querySelectorAll('.key');
     const keyInput = e.target.innerText;
     if (keyInput === 'Enter') {
-      textArea.value = `${textArea.value.slice(0, kursorStart)}\n${textArea.value.slice(kursorEnd)}`;
-      textArea.setSelectionRange(kursorStart + 1, kursorEnd + 1);
+      insertCursor('\n');
     } else if (keyInput === 'Backspace') {
       if (kursorStart > 0) {
         textArea.value = textArea.value.slice(0, kursorStart - 1)
@@ -212,7 +221,7 @@ document.addEventListener('mousedown', (e) => {
       isCaps = !isCaps;
       renderNewKeyboard();
     } else if (keyInput === 'Tab') {
-      textArea.value += '    ';
+      insertCursor('    ');
     } else if (keyInput !== 'CapsLock'
     && keyInput !== 'Shift'
     && keyInput !== 'ShiftLeft'
@@ -223,9 +232,9 @@ document.addEventListener('mousedown', (e) => {
     && keyInput !== 'AltLeft'
     && keyInput !== 'MetaLeft') {
       if (isCaps) {
-        textArea.value += keyInput.toUpperCase();
+        insertCursor(keyInput.toUpperCase());
       } else {
-        textArea.value += keyInput;
+        insertCursor(keyInput);
       }
     }
     textArea.focus();
