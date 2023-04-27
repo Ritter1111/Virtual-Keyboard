@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-param-reassign */
 import keyboardEng from './keyboardEn.js';
 import keyboardRu from './keyboardRu.js';
 
@@ -19,6 +17,7 @@ const createPage = () => {
   paragraph2.innerText = 'Для переключения языка комбинация: Ctrl + Alt';
   const textArea = document.createElement('textarea');
   textArea.className = 'textarea';
+  textArea.placeholder = 'Type some text here...';
   document.body.append(title, paragraph, paragraph2, textArea);
 };
 
@@ -29,35 +28,35 @@ const createButton = () => {
   row.className = 'row';
   divWrapper.append(row);
   const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
-  keyboard.forEach((btn) => {
+  keyboard.forEach(({ key, code }) => {
     const buttonEl = document.createElement('button');
     if (isCaps || isShiftPressed) {
-      buttonEl.innerHTML = btn.key.toUpperCase();
+      buttonEl.innerHTML = key.toUpperCase();
     } else {
-      buttonEl.innerHTML = btn.key;
+      buttonEl.innerHTML = key;
     }
     buttonEl.className = 'key';
-    buttonEl.dataset.code = btn.code;
-    if (btn.code === 'Backspace' || btn.code === 'CapsLock' || btn.code === 'ShiftLeft') {
+    buttonEl.dataset.code = code;
+    if (code === 'Backspace' || code === 'CapsLock' || code === 'ShiftLeft') {
       buttonEl.classList.add('backspace');
-    } else if (btn.code === 'Enter' || btn.code === 'ShiftRight') {
+    } else if (code === 'Enter' || code === 'ShiftRight') {
       buttonEl.classList.add('shift');
-    } else if (btn.code === 'Space') {
+    } else if (code === 'Space') {
       buttonEl.classList.add('space');
-    } else if (btn.code === 'Tab') {
+    } else if (code === 'Tab') {
       buttonEl.classList.add('tab');
-    } else if (btn.code === 'Delete') {
+    } else if (code === 'Delete') {
       buttonEl.classList.add('del');
-    } else if (btn.code === 'AltRight'
-   || btn.code === 'ArrowLeft'
-    || btn.code === 'ArrowDown'
-    || btn.code === 'ArrowRight'
-    || btn.code === 'ControlRight'
-    || btn.code === 'AltLeft'
-    || btn.code === 'MetaLeft'
-    || btn.code === 'ControlLeft'
-    || btn.code === 'ShiftRight'
-    || btn.code === 'ArrowUp') {
+    } else if (code === 'AltRight'
+   || code === 'ArrowLeft'
+    || code === 'ArrowDown'
+    || code === 'ArrowRight'
+    || code === 'ControlRight'
+    || code === 'AltLeft'
+    || code === 'MetaLeft'
+    || code === 'ControlLeft'
+    || code === 'ShiftRight'
+    || code === 'ArrowUp') {
       buttonEl.classList.add('btn-colored');
     }
     row.appendChild(buttonEl);
@@ -70,7 +69,8 @@ const switchKeyboard = () => {
   localStorage.setItem('keyboardLanguage', currentLanguage);
   const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
   const button = document.querySelectorAll('.key');
-  button.forEach((btn, idx) => {
+  button.forEach((butn, idx) => {
+    const btn = butn;
     btn.innerHTML = keyboard[idx].key;
     btn.dataset.code = keyboard[idx].code;
   });
@@ -79,7 +79,8 @@ const switchKeyboard = () => {
 const renderNewKeyboard = () => {
   const buttons = document.querySelectorAll('.key');
   const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
-  buttons.forEach((btn, idx) => {
+  buttons.forEach((butn, idx) => {
+    const btn = butn;
     if (isShiftPressed) {
       btn.innerHTML = keyboard[idx].key2;
       btn.dataset.code = keyboard[idx].code;
@@ -94,13 +95,15 @@ document.addEventListener('keydown', (e) => {
   e.preventDefault();
   const button = document.querySelectorAll('.key');
   const textArea = document.querySelector('.textarea');
+  const kursor = textArea.selectionEnd;
+  const kursorStart = textArea.selectionStart;
   const keyCode = e.code;
   const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
   const keyboardObj = keyboard.find((key) => key.code === e.code);
   if (keyboardObj === undefined) {
     return;
   }
-  const keyInput = isShiftPressed || isCaps ? keyboardObj.key2 : keyboardObj.key;
+  const keyInput = isShiftPressed ? keyboardObj.key2 : keyboardObj.key;
   if ((keyCode === 'AltLeft' && e.ctrlKey)
   || (keyCode === 'AltRight' && e.ctrlKey)
   || (keyCode === 'ControlLeft' && e.altKey)
@@ -118,9 +121,11 @@ document.addEventListener('keydown', (e) => {
   } else if (keyCode === 'ArrowDown') {
     textArea.value += '\u25BC';
   } else if (keyCode === 'Backspace') {
-    textArea.value = textArea.value.slice(0, -1);
+    if (kursorStart > 0) {
+      textArea.value = textArea.value.slice(0, kursorStart - 1) + textArea.value.slice(kursorStart);
+      textArea.setSelectionRange(kursorStart - 1, kursorStart - 1);
+    }
   } else if (keyCode === 'Delete') {
-    const kursor = textArea.selectionEnd;
     textArea.value = textArea.value.slice(0, kursor) + textArea.value.slice(kursor + 1);
     textArea.selectionEnd = kursor;
   } else if (keyCode === 'Tab') {
@@ -183,14 +188,19 @@ document.addEventListener('keyup', (e) => {
 document.addEventListener('mousedown', (e) => {
   if (e.target.classList.contains('key')) {
     const textArea = document.querySelector('.textarea');
+    const kursor = textArea.selectionEnd;
+    const kursorStart = textArea.selectionStart;
     const keyInput = e.target.innerText;
     textArea.focus();
     if (keyInput === 'Enter') {
       textArea.value += '\n';
     } else if (keyInput === 'Backspace') {
-      textArea.value = textArea.value.slice(0, -1);
+      if (kursorStart > 0) {
+        textArea.value = textArea.value.slice(0, kursorStart - 1)
+        + textArea.value.slice(kursorStart);
+        textArea.setSelectionRange(kursorStart - 1, kursorStart - 1);
+      }
     } else if (keyInput === 'Del') {
-      const kursor = textArea.selectionEnd;
       textArea.value = textArea.value.slice(0, kursor) + textArea.value.slice(kursor + 1);
       textArea.selectionEnd = kursor;
     } else if (keyInput === 'Shift') {
@@ -239,6 +249,13 @@ document.addEventListener('mouseup', (e) => {
     renderNewKeyboard();
   }
   if (e.target.closest('.key')) {
+    e.target.classList.remove('active');
+  }
+});
+
+document.addEventListener('mouseout', (e) => {
+  const keyInput = e.target.innerText;
+  if (keyInput !== 'CapsLock') {
     e.target.classList.remove('active');
   }
 });

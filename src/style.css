@@ -12,11 +12,11 @@ button {
 .key {
   width: 40px;
   height: 40px;
-  border: 1px solid #F6C6EA;
   background: #f5ebeb;
   border-radius: 5px;
   transition: 0.1s ease-in-out;
   box-shadow: 2px 3px 2px #999;
+  border: 1px solid #999;
   margin-bottom: 10px;
   margin-right: 4px;
 }
@@ -47,7 +47,7 @@ button {
   background-color: #F6C6EA;
   padding: 8px;
   border-radius: 10px;
-  border: 1px solid #18122b;
+  border: 2px solid #9999;
 }
 
 .backspace,
@@ -72,12 +72,11 @@ button {
 
 .textarea {
   padding: 5px;
-  background-color: #FFEBEB;
   border: 1px solid #F6C6EA;
   margin: 14px;
   height: 180px;
   width: 677px;
-  font-size: 15px;
+  font-size: 16px;
   outline: none;
 }
 
