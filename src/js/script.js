@@ -21,7 +21,7 @@ const createPage = () => {
   document.body.append(title, paragraph, paragraph2, textArea);
 };
 
-const createButton = () => {
+const createKeyboard = () => {
   const divWrapper = document.createElement('div');
   divWrapper.className = 'container';
   const row = document.createElement('div');
@@ -95,7 +95,7 @@ document.addEventListener('keydown', (e) => {
   e.preventDefault();
   const button = document.querySelectorAll('.key');
   const textArea = document.querySelector('.textarea');
-  const kursor = textArea.selectionEnd;
+  const kursorEnd = textArea.selectionEnd;
   const kursorStart = textArea.selectionStart;
   const keyCode = e.code;
   const keyboard = currentLanguage === 'keyboardEng' ? keyboardEng : keyboardRu;
@@ -111,7 +111,8 @@ document.addEventListener('keydown', (e) => {
     switchKeyboard();
   }
   if (keyCode === 'Enter') {
-    textArea.value += '\n';
+    textArea.value = `${textArea.value.slice(0, kursorStart)}\n${textArea.value.slice(kursorEnd)}`;
+    textArea.setSelectionRange(kursorStart + 1, kursorEnd + 1);
   } else if (keyCode === 'ArrowLeft') {
     textArea.value += '\u25C4';
   } else if (keyCode === 'ArrowRight') {
@@ -126,8 +127,8 @@ document.addEventListener('keydown', (e) => {
       textArea.setSelectionRange(kursorStart - 1, kursorStart - 1);
     }
   } else if (keyCode === 'Delete') {
-    textArea.value = textArea.value.slice(0, kursor) + textArea.value.slice(kursor + 1);
-    textArea.selectionEnd = kursor;
+    textArea.value = textArea.value.slice(0, kursorEnd) + textArea.value.slice(kursorEnd + 1);
+    textArea.selectionEnd = kursorEnd;
   } else if (keyCode === 'Tab') {
     textArea.value += '    ';
   } else if (keyCode === 'Space') {
@@ -188,12 +189,13 @@ document.addEventListener('keyup', (e) => {
 document.addEventListener('mousedown', (e) => {
   if (e.target.classList.contains('key')) {
     const textArea = document.querySelector('.textarea');
-    const kursor = textArea.selectionEnd;
+    const kursorEnd = textArea.selectionEnd;
     const kursorStart = textArea.selectionStart;
+    const button = document.querySelectorAll('.key');
     const keyInput = e.target.innerText;
-    textArea.focus();
     if (keyInput === 'Enter') {
-      textArea.value += '\n';
+      textArea.value = `${textArea.value.slice(0, kursorStart)}\n${textArea.value.slice(kursorEnd)}`;
+      textArea.setSelectionRange(kursorStart + 1, kursorEnd + 1);
     } else if (keyInput === 'Backspace') {
       if (kursorStart > 0) {
         textArea.value = textArea.value.slice(0, kursorStart - 1)
@@ -201,8 +203,8 @@ document.addEventListener('mousedown', (e) => {
         textArea.setSelectionRange(kursorStart - 1, kursorStart - 1);
       }
     } else if (keyInput === 'Del') {
-      textArea.value = textArea.value.slice(0, kursor) + textArea.value.slice(kursor + 1);
-      textArea.selectionEnd = kursor;
+      textArea.value = textArea.value.slice(0, kursorEnd) + textArea.value.slice(kursorEnd + 1);
+      textArea.selectionEnd = kursorEnd;
     } else if (keyInput === 'Shift') {
       isShiftPressed = true;
       renderNewKeyboard();
@@ -226,8 +228,8 @@ document.addEventListener('mousedown', (e) => {
         textArea.value += keyInput;
       }
     }
+    textArea.focus();
     e.target.classList.add('active');
-    const button = document.querySelectorAll('.key');
     button.forEach((btn) => {
       if (keyInput === 'CapsLock') {
         if (!btn.classList.contains('del')
@@ -243,12 +245,14 @@ document.addEventListener('mousedown', (e) => {
 });
 
 document.addEventListener('mouseup', (e) => {
+  const textArea = document.querySelector('.textarea');
   const keyInput = e.target.innerText;
   if (keyInput === 'Shift') {
     isShiftPressed = false;
     renderNewKeyboard();
   }
   if (e.target.closest('.key')) {
+    textArea.focus();
     e.target.classList.remove('active');
   }
 });
@@ -262,4 +266,4 @@ document.addEventListener('mouseout', (e) => {
 
 createPage();
 
-createButton();
+createKeyboard();
