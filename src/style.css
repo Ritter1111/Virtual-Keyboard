@@ -21,22 +21,42 @@ button {
   margin-right: 4px;
 }
 
-.key.caps{
+.key.caps {
   text-transform: uppercase;
 }
 
 .key:hover {
-  background: #c9a7eb;
+  background: rgb(108, 65, 112);
+  background: linear-gradient(
+    0deg,
+    rgba(108, 65, 112, 0.7035189075630253) 0%,
+    rgba(170, 169, 185, 1) 0%,
+    rgba(145, 136, 163, 0.49343487394957986) 99%
+  );
 }
 
 .key:active {
-  background-color: #c9a7eb;
+  background: rgb(108, 65, 112);
+  background: linear-gradient(
+    0deg,
+    rgba(108, 65, 112, 0.7035189075630253) 0%,
+    rgba(170, 169, 185, 1) 0%,
+    rgba(145, 136, 163, 0.49343487394957986) 99%
+  );
+
   box-shadow: 0 1px #666;
   transform: translateY(3px);
 }
 
 .key.active {
-  background-color: #c9a7eb;
+  background: rgb(108, 65, 112);
+  background: linear-gradient(
+    0deg,
+    rgba(108, 65, 112, 0.7035189075630253) 0%,
+    rgba(170, 169, 185, 1) 0%,
+    rgba(145, 136, 163, 0.49343487394957986) 99%
+  );
+
   box-shadow: 0 1px #666;
   transform: translateY(3px);
 }
@@ -44,7 +64,7 @@ button {
 .container {
   width: 680px;
   margin: 0 auto;
-  background-color: #F6C6EA;
+  background-color: #f6c6ea;
   padding: 8px;
   border-radius: 10px;
   border: 2px solid #9999;
@@ -53,12 +73,10 @@ button {
 .backspace,
 .shift-left {
   width: 93px;
-  background-color: #E5BEEC;
 }
 .enter,
 .shift {
   width: 85px;
-  background-color: #E5BEEC;
 }
 
 .space {
@@ -67,12 +85,11 @@ button {
 
 .tab {
   width: 47px;
-  background-color: #E5BEEC;
 }
 
 .textarea {
   padding: 5px;
-  border: 1px solid #F6C6EA;
+  border: 1px solid #f6c6ea;
   margin: 14px;
   height: 180px;
   width: 677px;
@@ -82,7 +99,6 @@ button {
 
 .title {
   margin: 20px 0 7px 0;
-  
 }
 
 .keyboard-title {
@@ -91,9 +107,21 @@ button {
 
 .del {
   width: 43px;
-  background-color: #E5BEEC;
 }
 
-.btn-colored {
-  background-color: #E5BEEC;
+.btn-colored,
+.del,
+.tab,
+.enter,
+.shift,
+.backspace,
+.shift-left {
+  background: rgb(108, 65, 112);
+  background: linear-gradient(
+    0deg,
+    rgba(108, 65, 112, 0.7035189075630253) 0%,
+    rgba(214, 213, 230, 1) 0%,
+    rgba(130, 128, 133, 0.49343487394957986) 99%
+  );
+  font-size: 15px;
 }
