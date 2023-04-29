@@ -1,0 +1,127 @@
+.body {
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+}
+
+button {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.key {
+  width: 40px;
+  height: 40px;
+  background: #f5ebeb;
+  border-radius: 5px;
+  transition: 0.1s ease-in-out;
+  box-shadow: 2px 3px 2px #999;
+  border: 1px solid #999;
+  margin-bottom: 10px;
+  margin-right: 4px;
+}
+
+.key.caps {
+  text-transform: uppercase;
+}
+
+.key:hover {
+  background: rgb(108, 65, 112);
+  background: linear-gradient(
+    0deg,
+    rgba(108, 65, 112, 0.7035189075630253) 0%,
+    rgba(170, 169, 185, 1) 0%,
+    rgba(145, 136, 163, 0.49343487394957986) 99%
+  );
+}
+
+.key:active {
+  background: rgb(108, 65, 112);
+  background: linear-gradient(
+    0deg,
+    rgba(108, 65, 112, 0.7035189075630253) 0%,
+    rgba(170, 169, 185, 1) 0%,
+    rgba(145, 136, 163, 0.49343487394957986) 99%
+  );
+
+  box-shadow: 0 1px #666;
+  transform: translateY(3px);
+}
+
+.key.active {
+  background: rgb(108, 65, 112);
+  background: linear-gradient(
+    0deg,
+    rgba(108, 65, 112, 0.7035189075630253) 0%,
+    rgba(170, 169, 185, 1) 0%,
+    rgba(145, 136, 163, 0.49343487394957986) 99%
+  );
+
+  box-shadow: 0 1px #666;
+  transform: translateY(3px);
+}
+
+.container {
+  width: 680px;
+  margin: 0 auto;
+  background-color: #f6c6ea;
+  padding: 8px;
+  border-radius: 10px;
+  border: 2px solid #9999;
+}
+
+.backspace,
+.shift-left {
+  width: 93px;
+}
+.enter,
+.shift {
+  width: 85px;
+}
+
+.space {
+  width: 314px;
+}
+
+.tab {
+  width: 47px;
+}
+
+.textarea {
+  padding: 5px;
+  border: 1px solid #f6c6ea;
+  margin: 14px;
+  height: 180px;
+  width: 677px;
+  font-size: 16px;
+  outline: none;
+}
+
+.title {
+  margin: 20px 0 7px 0;
+}
+
+.keyboard-title {
+  margin: 0;
+}
+
+.del {
+  width: 43px;
+}
+
+.btn-colored,
+.del,
+.tab,
+.enter,
+.shift,
+.backspace,
+.shift-left {
+  background: rgb(108, 65, 112);
+  background: linear-gradient(
+    0deg,
+    rgba(108, 65, 112, 0.7035189075630253) 0%,
+    rgba(214, 213, 230, 1) 0%,
+    rgba(130, 128, 133, 0.49343487394957986) 99%
+  );
+  font-size: 15px;
+}
