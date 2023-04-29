@@ -123,13 +123,13 @@ document.addEventListener('keydown', (e) => {
   if (e.code === 'Enter') {
     insertCursor('\n');
   } else if (e.code === 'ArrowLeft') {
-    textArea.value += '\u25C4';
+    textArea.value += '\u21D0';
   } else if (e.code === 'ArrowRight') {
-    textArea.value += '\u25BA';
+    textArea.value += '\u21D2';
   } else if (e.code === 'ArrowUp') {
-    textArea.value += '\u25B2';
+    textArea.value += '\u21D1';
   } else if (e.code === 'ArrowDown') {
-    textArea.value += '\u25BC';
+    textArea.value += '\u21D3';
   } else if (e.code === 'Backspace') {
     if (kursorStart > 0) {
       textArea.value = textArea.value.slice(0, kursorStart - 1) + textArea.value.slice(kursorStart);
